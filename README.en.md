@@ -63,16 +63,6 @@ dshClean handles all of it and then re-scans to verify that no deleted session I
 
 **Never touched**: your real project folders (e.g. `~/Projects/my-app`), account login state (Cookies / Local State, unless `--purge-app-dir`), DSH configuration and credentials (`profiles/`, `.credentials.yaml`).
 
-## Safety design
-
-- **Dry-run by default** — without `--yes` it only prints the plan (paths, sizes, reference counts)
-- **Refuses to run while DSH is alive** — checks the process table (`ps` / `tasklist`) *and* probes `session.lock` with a non-blocking `flock`; if neither check can run, it **fails closed** instead of proceeding
-- **Path fencing** — every deletion target must live under an allowed root (DSH home / desktop data dir / temp dirs); symlinks are unlinked, never followed
-- **Two-step confirmation (web)** — the preview returns a `plan_token`; the delete request must present it, and any change of selection or options invalidates it. A typed confirmation word is required too
-- **Atomic writes** — structured files such as `workspace.json` are replaced via temp file + fsync + rename
-- **Post-delete verification** — re-scans the DSH home and GUI state for deleted session IDs, and reports suspected exported copies in `~/Downloads`, `~/Desktop`, `~/Documents`
-- **Optional backup and overwrite** — `--backup DIR`, `--shred`
-
 ## What it cannot delete 
 
 - **Server-side copies** — if "upload Session Log when using the official model API" was ever enabled, the increments already sent to DeepSeek cannot be removed locally; turn the switch off in *Settings → General*.
