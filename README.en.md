@@ -75,3 +75,10 @@ dshClean handles all of it and then re-scans to verify that no deleted session I
 ```
 scan → build_plan → preview/confirm → execute → verify
 ```
+## Disclaimer
+
+This tool **deletes data irreversibly**. Verify your selection and keep backups. The authors are not responsible for any data loss.
+
+## License
+
+[MIT](LICENSE)
